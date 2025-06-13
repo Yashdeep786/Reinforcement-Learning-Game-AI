@@ -2,6 +2,8 @@ import streamlit as st
 from ai.rl_agent import SignalAgent
 from env.signal_env import SignalEnv
 from database.vocab_utils import ensure_vocab_table, save_vocab, load_vocab
+from utils.logger import log_signal
+log_signal(user_pattern, ai_response, reward)
 
 ensure_vocab_table()
 agent.vocab = load_vocab()        # Load at start
