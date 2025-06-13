@@ -28,3 +28,12 @@ PRs welcome for:
 ```bash
 streamlit run ui/app.py
 ```
+
+## Signal Encoder/Decoder Module
+
+- `encode(word)` → returns visual signal like 🟥
+- `decode(signal)` → returns meaning like "danger"
+- `update_vocab(signal, meaning)` → adds/updates vocabulary
+- Automatically stores vocab in SQLite via db_handler
+
+Used by agent and environment to interpret messages.
