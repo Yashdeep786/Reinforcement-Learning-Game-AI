@@ -1,6 +1,12 @@
 import streamlit as st
 from ai.rl_agent import SignalAgent
 from env.signal_env import SignalEnv
+from database.vocab_utils import ensure_vocab_table, save_vocab, load_vocab
+
+ensure_vocab_table()
+agent.vocab = load_vocab()        # Load at start
+save_vocab(agent.vocab)           # Save after learning
+
 
 # Page title
 st.title("🧠 Signal: The Emergent Language Game")
