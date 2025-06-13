@@ -1,57 +1,42 @@
+import os
+import sys
 import streamlit as st
 from ai.rl_agent import SignalAgent
 from env.signal_env import SignalEnv
-from database.vocab_utils import ensure_vocab_table, save_vocab, load_vocab
+from database.vocab_utils import save_vocab, load_vocab, ensure_vocab_table
+from database.db_handler import DBHandler
 from utils.logger import log_signal
-log_signal(user_pattern, ai_response, reward)
 
-ensure_vocab_table()
-agent.vocab = load_vocab()        # Load at start
-save_vocab(agent.vocab)           # Save after learning
-
-
-# Page title
 st.title("🧠 Signal: The Emergent Language Game")
 
-# Initialize agent and environment
 agent = SignalAgent()
 env = SignalEnv()
+ensure_vocab_table()
+db = DBHandler()
+agent.vocab = load_vocab()
 
-# Input: User sends a signal
 user_pattern = st.text_input("Your Signal (e.g., 🔴🟡🔴):")
-
-# --- Initialize session state ---
-for key in ['last_state', 'last_response', 'show_feedback']:
-    if key not in st.session_state:
-        st.session_state[key] = None if key != 'show_feedback' else False
-
-# --- Step 1: Send Signal ---
-if st.button("Send Signal") and user_pattern.strip():
-    state = env.receive_input(user_pattern.strip())
+if st.button("Send Signal"):
+    state = env.receive_input(user_pattern)
     ai_response = agent.choose_action(state)
+    st.write(f"🤖 AI Responds with: {ai_response}")
 
-    # Store in session for feedback step
-    st.session_state['last_state'] = state
-    st.session_state['last_response'] = ai_response
-    st.session_state['show_feedback'] = True
-
-# --- Step 2: Show AI Response and Collect Feedback ---
-if st.session_state['show_feedback']:
-    st.write(f"🤖 **AI Responds with:** `{st.session_state['last_response']}`")
-
-    feedback = st.radio("Did AI understand you?", ('yes', 'no'), key="feedback")
-
+    feedback = st.radio("Did AI understand you?", ('yes', 'no'))
     if st.button("Submit Feedback"):
         reward = env.evaluate_response(feedback)
-        agent.learn(
-            st.session_state['last_state'],
-            st.session_state['last_response'],
-            reward
-        )
-        st.success("✅ Feedback registered. AI is learning!")
-        st.session_state['show_feedback'] = False
+        agent.learn(state, ai_response, reward)
+        db.log(user_pattern, ai_response, reward)
+        save_vocab(agent.vocab)
+        log_signal(user_pattern, ai_response, reward)
+        st.success("Feedback registered. AI is learning!")
 
-# --- Optional: View AI Memory ---
-with st.expander("🧠 View Agent Memory"):
-    st.write(agent.memory)
+# Optional: show session history
+if 'history' not in st.session_state:
+    st.session_state['history'] = []
 
+if user_pattern and st.button("Track History"):
+    st.session_state['history'].append((user_pattern, ai_response, reward))
+
+with st.expander("📜 Session History"):
+    for i, (us, ai, rw) in enumerate(st.session_state['history']):
+        st.write(f"{i+1}. You: {us} → AI: {ai} | Reward: {rw}")
