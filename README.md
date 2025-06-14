@@ -1,33 +1,46 @@
-🧠 Signal: The Emergent Language Game
-Signal is an interactive reinforcement learning (RL) game where humans and an AI agent try to develop a shared language using just colored emoji signals. Inspired by emergent communication studies in AI, the game challenges the AI to learn your patterns—and for you to test how well it understands them.
+# 🧠 Signal: The Emergent Language Game
 
-🎮 How It Works
-You send a signal using a combination of emojis (e.g., 🔴🟡🔴).
+An interactive reinforcement learning game where **humans and AI agents develop a shared nonverbal language** using emoji-based signals.
 
-The AI agent replies with its own emoji pattern, trying to interpret or respond meaningfully.
+Built using Python, Streamlit, and SQLite — this project explores how communication can emerge from feedback-driven interaction.
 
-You provide feedback by selecting whether the AI "understood" your signal (yes or no).
+---
 
-If the feedback is positive, the AI learns to associate your signal with its response using a simple reward-based memory.
+## 🎮 Gameplay Overview
 
-Over time, a shared symbolic language may emerge.
+1. **Send a Signal** — Choose an emoji from the shared vocabulary (e.g., 🟥 for "danger").
+2. **AI Responds** — The agent selects a response based on its memory and learning.
+3. **Provide Feedback** — Tell the system whether the AI understood your message.
+4. **Learning Happens** — Positive feedback reinforces correct interpretations.
+5. **History Log** — View the last 10 rounds of interaction.
 
-💡 Purpose
-This game serves as a minimalist platform to explore:
+---
 
-Basic reinforcement learning loops
+## 🛠️ Features
 
-Human-AI communication
+- ✅ Streamlit-based UI for real-time interaction
+- ✅ Reinforcement learning agent with memory
+- ✅ SQLite database for vocab and history
+- ✅ Real-time feedback-based training loop
+- ✅ Persistent vocabulary management
+- ✅ Modular codebase (Agent, Env, DB, Logger, Utils)
 
-Pattern recognition and abstraction
+---
 
-Memory-based learning without supervision
+## 🗂️ Project Structure
 
-✨ Features
-Emoji-based symbolic communication
-
-Simple RL memory (positive feedback reinforcement)
-
-Stateless input with stateful learning
-
-Feedback loop for incremental learning
+SignalGame/
+├── ai/ # Reinforcement learning agent
+│ └── rl_agent.py
+├── env/ # Game environment logic
+│ └── signal_env.py
+├── database/ # Vocabulary + logging database
+│ ├── db_handler.py
+│ ├── db_init.py
+│ └── vocab_utils.py
+├── utils/ # Logging and encoding tools
+│ ├── logger.py
+│ └── signal_encoder.py
+├── main.py # 🔥 Streamlit frontend interface
+├── game_ai.db # (Auto-generated) SQLite database
+└── README.md # 📘 
