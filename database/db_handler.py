@@ -1,50 +1,36 @@
-# database/db_handler.py
-
 import sqlite3
 
 class DBHandler:
-    def __init__(self, db_name="signal_game.db"):
-        self.db_name = db_name
-        self._init_db()
+    def __init__(self, db_path="game_ai.db"):
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
+        self.cursor = self.conn.cursor()
+        self._init_table()
 
-    def _get_connection(self):
-        return sqlite3.connect(self.db_name)
-
-    def _init_db(self):
-        conn = self._get_connection()
-        cursor = conn.cursor()
-        cursor.execute('''
+    def _init_table(self):
+        self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS game_logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                move TEXT,
-                result TEXT,
+                user_signal TEXT,
+                ai_response TEXT,
                 reward INTEGER
             )
-        ''')
-        conn.commit()
-        conn.close()
+        """)
+        self.conn.commit()
 
-    def log(self, move, result, reward):
-        conn = self._get_connection()
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO game_logs (move, result, reward)
-            VALUES (?, ?, ?)
-        ''', (move, result, reward))
-        conn.commit()
-        conn.close()
+    def log(self, user_signal, ai_response, reward):
+        self.cursor.execute(
+            "INSERT INTO game_logs (user_signal, ai_response, reward) VALUES (?, ?, ?)",
+            (user_signal, ai_response, reward)
+        )
+        self.conn.commit()
 
     def fetch_last_logs(self, limit=10):
-        conn = self._get_connection()
-        cursor = conn.cursor()
-        cursor.execute('''
-                       SELECT move, result, reward
-                       FROM game_logs
-                       ORDER BY id DESC LIMIT ?
-                       ''', (limit,))
-        rows = cursor.fetchall()
-        conn.close()
-        return [
-            {"round": idx + 1, "move": row[0], "result": row[1], "reward": row[2]}
-            for idx, row in enumerate(reversed(rows))
-        ]
+        self.cursor.execute(
+            "SELECT user_signal, ai_response, reward FROM game_logs ORDER BY id DESC LIMIT ?",
+            (limit,)
+        )
+        rows = self.cursor.fetchall()
+        return [{"move": signal, "result": response, "reward": reward} for signal, response, reward in rows]
+
+    def close(self):
+        self.conn.close()
