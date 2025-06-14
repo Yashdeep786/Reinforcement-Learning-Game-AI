@@ -26,5 +26,13 @@ class DBHandler:
         )
         self.conn.commit()
 
+    def fetch_last_logs(self, limit=10):
+        self.cursor.execute(
+            "SELECT user_signal, ai_response, reward FROM game_logs ORDER BY id DESC LIMIT ?",
+            (limit,)
+        )
+        rows = self.cursor.fetchall()
+        return [{"move": signal, "result": response, "reward": reward} for signal, response, reward in rows]
+
     def close(self):
         self.conn.close()
