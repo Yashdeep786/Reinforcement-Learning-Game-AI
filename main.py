@@ -1,3 +1,4 @@
+
 import streamlit as st
 from ai.rl_agent import SignalAgent
 from env.signal_env import SignalEnv
@@ -30,7 +31,7 @@ if st.button("Send Signal"):
         state = env.receive_input(user_signal.strip())
         agent_response = agent.choose_action(state)
 
-        st.success(f"✅ Agent says: **{agent_response}**,{vocab[user_signal.strip()]}")
+        st.success(f"✅ Agent says: {vocab[user_signal.strip()]}")
         st.session_state["last_signal"] = user_signal.strip()
         st.session_state["last_response"] = agent_response
     else:
@@ -47,7 +48,7 @@ if "last_signal" in st.session_state and "last_response" in st.session_state:
             st.session_state["last_signal"],
             st.session_state["last_response"],
             reward,
-            st.session_state["last_signal"]  # next_state = current state for now
+              # next_state = current state for now
         )
 
         db.log(
@@ -57,7 +58,7 @@ if "last_signal" in st.session_state and "last_response" in st.session_state:
         )
 
         log_signal(st.session_state["last_signal"], st.session_state["last_response"], reward)
-        st.success("✅ Feedback submitted and agent has learned!")
+        st.success(f"✅ Feedback submitted! " f" Agent learned with reward = {reward}")
 
         del st.session_state["last_signal"]
         del st.session_state["last_response"]
