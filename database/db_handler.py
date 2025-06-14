@@ -1,20 +1,21 @@
+# database/db_handler.py
+
 import sqlite3
 
-DB_NAME = "game_ai.db"
+class DBHandler:
+    def __init__(self, db_name="game_ai.db"):
+        self.conn = sqlite3.connect(db_name)
+        self.cursor = self.conn.cursor()
 
-def save_vocab(vocab):
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
-    c.execute("DELETE FROM signal_vocab")  # clear old
-    for signal, meaning in vocab.items():
-        c.execute("INSERT INTO signal_vocab (signal, meaning) VALUES (?, ?)", (signal, meaning))
-    conn.commit()
-    conn.close()
+    def save_vocab(self, vocab):
+        self.cursor.execute("DELETE FROM signal_vocab")
+        for signal, meaning in vocab.items():
+            self.cursor.execute("INSERT INTO signal_vocab (signal, meaning) VALUES (?, ?)", (signal, meaning))
+        self.conn.commit()
 
-def load_vocab():
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
-    c.execute("SELECT signal, meaning FROM signal_vocab")
-    rows = c.fetchall()
-    conn.close()
-    return {signal: meaning for signal, meaning in rows}
+    def load_vocab(self):
+        self.cursor.execute("SELECT signal, meaning FROM signal_vocab")
+        return dict(self.cursor.fetchall())
+
+    def close(self):
+        self.conn.close()
