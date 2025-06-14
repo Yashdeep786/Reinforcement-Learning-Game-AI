@@ -44,3 +44,32 @@ SignalGame/
 ├── main.py # 🔥 Streamlit frontend interface
 ├── game_ai.db # (Auto-generated) SQLite database
 └── README.md # 📘 
+
+🧪 Example Emoji Vocabulary
+Emoji       	Meaning
+🟥	           Danger
+🟦	           Safe
+🔺	           Move Up
+⬛	          Stop
+
+📚 How It Works
+The agent uses a simple reward-based learning model.
+
+If feedback is positive (👍), it remembers that signal-response pair.
+
+Over time, the AI starts responding more accurately to known signals.
+
+All interactions are logged and vocab is stored persistently.
+
+🧠 Tech Stack
+Python 🐍
+
+Streamlit 🎈
+
+SQLite 💾
+
+Modular MVC-style code
+
+🤝 Contributing
+Pull requests are welcome! If you have signal ideas, new vocab mappings, or agent upgrades, feel free to suggest.
+
