@@ -5,7 +5,10 @@ project:
   version: 1.0
   description: Interactive RL game where humans and AI develop a shared nonverbal language.
 
+ FOR-INTERFACE
 
+
+ main
 database:
   path: game_ai.db
 
