@@ -1,5 +1,3 @@
-# config.yaml - Configuration for Signal Game AI
-
 project:
   name: Signal Game
   version: 1.0
