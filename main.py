@@ -14,7 +14,7 @@ st.title(f"🎮 {config['project']['name']}")
 
 agent = SignalAgent()
 env = SignalEnv()
-db = DBHandler(db_path=config["database"]["path"])
+db = DBHandler()
 vocab = load_vocab()
 
 # 🔹 Show Vocabulary
