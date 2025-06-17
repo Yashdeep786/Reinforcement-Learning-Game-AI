@@ -316,7 +316,7 @@ with col_reset:
         db.conn.commit()
         st.success("All logs purged!")
         if config["interface"]["enable_history"]:
-            st.experimental_rerun()
+            st.rerun()
 
 # Footer
 st.markdown("""
