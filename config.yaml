@@ -1,0 +1,13 @@
+project:
+  name: "Signal: The Emergent Language Game"
+
+database:
+  path: "game_ai.db"
+
+model_path: "models/model.pkl"
+reward_threshold: 0.8
+max_steps: 100
+
+interface:
+  page_title: "Signal: The Emergent Language Game"
+  page_icon: "🎮"
