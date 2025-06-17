@@ -1,110 +1,99 @@
 import streamlit as st
 
-# Page config
-st.set_page_config(page_title="Signal Game Landing", page_icon="🚀", layout="centered")
-
-# Google Font import
-st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
-""", unsafe_allow_html=True)
+# Page Config
+st.set_page_config(page_title="Signal Game - Arena", page_icon="🎮", layout="wide")
 
 # Custom CSS
 st.markdown("""
 <style>
 body {
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background: radial-gradient(circle, #1b2735, #090a0f);
     background-attachment: fixed;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     color: white;
-    overflow: hidden;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 40%);
-    animation: moveBackground 60s linear infinite;
-    z-index: -1;
-}
-
-@keyframes moveBackground {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-50%, -50%); }
 }
 
 .stApp {
-    animation: fadePage 1.2s ease-in-out;
+    background-color: transparent;
 }
 
-@keyframes fadePage {
-    0% { opacity: 0; transform: scale(1.05); }
-    100% { opacity: 1; transform: scale(1); }
-}
-
-.main-box {
-    padding: 4rem 2rem;
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
+.header {
+    padding: 2rem 0;
     text-align: center;
-    margin-top: 6rem;
-    box-shadow: 0 0 50px rgba(0, 255, 255, 0.4);
-    border: 2px solid rgba(0, 255, 255, 0.5);
-    animation: pulse 3s infinite;
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.4); }
-    50% { box-shadow: 0 0 80px rgba(0, 255, 255, 0.8); }
-    100% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.4); }
-}
-
-.title {
-    font-size: 4rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #00ffe7, #00c3ff);
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #00ffe7, #ff6ec4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px #00eaff;
+    text-shadow: 0 0 25px #00eaff;
+    animation: fadeIn 1s ease-in-out;
 }
 
-.subtitle {
-    font-size: 1.4rem;
-    margin-top: 1rem;
-    margin-bottom: 2.5rem;
-    color: #cfcfcf;
+.game-container {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    padding: 3rem;
+    margin: 2rem 10rem;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
 }
 
-.play-button {
-    padding: 1.2rem 4rem;
+.signal-box {
+    padding: 2rem;
+    border: 2px dashed #00eaff;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+button {
+    padding: 1rem 2rem;
     font-size: 1.5rem;
     font-weight: bold;
     color: white;
     background: linear-gradient(135deg, #ff6ec4, #7873f5);
     border: none;
-    border-radius: 18px;
+    border-radius: 15px;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.play-button:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 30px rgba(255, 110, 196, 0.6);
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 110, 196, 0.6);
+}
+
+.score {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    color: #cfcfcf;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 """, unsafe_allow_html=True)
 
 # Content
-st.markdown("""
-<div class="main-box">
-    <div class="title">🚀 Welcome to Signal Game</div>
-    <div class="subtitle">Crack the code. Talk in signals. Train your AI.</div>
-    <form action="main.py">
-        <button class="play-button" type="submit">🎮 Enter the Arena</button>
-    </form>
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div class="header">🎯 Signal Game Arena</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="game-container">', unsafe_allow_html=True)
+
+# Signal placeholder (your actual game output here)
+st.markdown('<div class="signal-box">🟢 🔴 🔵</div>', unsafe_allow_html=True)
+
+# Input area (replace with your actual game input logic)
+user_input = st.text_input("Enter your signal interpretation:", "")
+
+if st.button("Submit Signal"):
+    # Replace this logic with your real game function
+    st.success(f"Your input '{user_input}' has been recorded!")
+
+# Score display (replace with dynamic game data)
+st.markdown('<div class="score">🌟 Current Score: 150</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
