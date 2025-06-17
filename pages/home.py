@@ -73,8 +73,7 @@ st.markdown("""
 <div class="main-box">
     <div class="title">🚀 Welcome to Signal Game</div>
     <div class="subtitle">Crack the code. Talk in signals. Train your AI.</div>
-    <form action="main.py">
-        <button class="play-button" type="submit">🎮 Enter the Arena</button>
-    </form>
+    if st.button("🎮 Enter the Arena"):
+    st.switch_page("pages/main.py")
 </div>
 """, unsafe_allow_html=True)
