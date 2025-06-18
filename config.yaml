@@ -1,13 +1,20 @@
 project:
-  name: "Signal: The Emergent Language Game"
+  name: Signal Game
+  version: 1.0
+  description: Interactive RL game where humans and AI develop a shared nonverbal language.
 
 database:
-  path: "game_ai.db"
+  path: game_ai.db
 
-model_path: "models/model.pkl"
-reward_threshold: 0.8
-max_steps: 100
+signals:
+  🟥: danger
+  🟦: safe
+  🔺: move up
+  ⬛: stop
+  🟨: caution
 
 interface:
-  page_title: "Signal: The Emergent Language Game"
+  page_title: Signal Game
   page_icon: "🎮"
+  enable_history: true
+  max_logs: 10

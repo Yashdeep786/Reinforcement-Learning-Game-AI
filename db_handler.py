@@ -1,14 +1,19 @@
 import sqlite3
-
-DB_NAME = "game_ai.db"
+import os
 
 class DBHandler:
-    def __init__(self):
-        self.conn = sqlite3.connect(DB_NAME, check_same_thread=False)
+    def __init__(self, db_path="game_ai.db"):
+        db_path = os.path.abspath(db_path)
+        print(f"🔧 Using DB at: {db_path}")
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self.cursor = self.conn.cursor()
         self._init_table()
 
     def _init_table(self):
+        # your init table code...
+
+
+     def _init_table(self):
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS game_logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,7 +37,7 @@ class DBHandler:
             (limit,)
         )
         rows = self.cursor.fetchall()
-        return [{"move": signal, "result": response, "reward": reward} for signal, response, reward in rows]
+        return [{"signal": r[0], "response": r[1], "reward": r[2]} for r in rows]
 
     def close(self):
         self.conn.close()
