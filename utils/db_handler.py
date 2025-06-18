@@ -15,7 +15,42 @@ class DBHandler:
                 score INTEGER DEFAULT 0
             )
         """)
+
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS game_logs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                player_id TEXT,
+                timestamp TEXT,
+                action TEXT,
+                result TEXT
+            )
+        """)
+
         self.conn.commit()
+
+
+    def get_progress(self, player_id):
+        cursor = self.conn.cursor()
+        cursor.execute('''
+            SELECT score, level, timestamp FROM player_progress
+            WHERE player_id = ?
+            ORDER BY timestamp DESC
+            LIMIT 1
+        ''', (player_id,))
+        return cursor.fetchone()
+    
+    def fetch_last_logs(self, limit=10):
+        cursor = self.conn.cursor()
+        cursor.execute('''
+            SELECT player_id, score, level, timestamp FROM player_progress
+            ORDER BY timestamp DESC
+            LIMIT ?
+        ''', (limit,))
+        return cursor.fetchall()
+
+    def close(self):
+        if self.conn:
+            self.conn.close()
 
     def add_player(self, username):
         try:
