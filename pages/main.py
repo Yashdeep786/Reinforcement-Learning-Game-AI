@@ -1,7 +1,7 @@
 import streamlit as st
 import yaml
 import atexit
-from db_handler import DBHandler
+from utils.db_handler import DBHandler
 
 # Load config
 with open("config.yaml", "r", encoding="utf-8") as f:
